@@ -1,5 +1,5 @@
 #import "GPHParticleCell.h"
-#import "RCTAssert.h"
+#import <React/RCTAssert.h>
 
 @interface GPHParticleCell ()
 
@@ -26,13 +26,13 @@
 {
   NSAssert([view isKindOfClass:[UIImageView class]],
            @"Only an Image may be a child of a ParticleCell");
-  
+
   UIImageView *imageView = (UIImageView*) view;
-  
+
   [imageView addObserver:self forKeyPath:@"image"
                  options:NSKeyValueObservingOptionNew context:nil];
   self.observedObject = imageView;
-  
+
   [self checkForCellImageSetup:imageView];
 }
 
@@ -40,13 +40,13 @@
 {
   NSAssert([view isKindOfClass:[UIImageView class]],
            @"Only an Image may be a child of a ParticleCell");
-  
+
   UIImageView *imageView = (UIImageView*) view;
-  
+
   [imageView addObserver:self forKeyPath:@"image"
                  options:NSKeyValueObservingOptionNew context:nil];
   self.observedObject = imageView;
-  
+
   [self checkForCellImageSetup:imageView];
   // don't actually insert the imageview
 }
@@ -56,7 +56,7 @@
 {
   if ([self.emitterCell respondsToSelector:anInvocation.selector]) {
     anInvocation.target = self.emitterCell;
-    
+
     [anInvocation invoke];
   }
 }
@@ -64,7 +64,7 @@
 - (NSMethodSignature*)methodSignatureForSelector:(SEL)aSelector
 {
   NSMethodSignature *signature = [self.emitterCell methodSignatureForSelector:aSelector];
-  
+
   NSAssert(signature != nil, @"unknown property set on GPHParticleCell: %@",
            NSStringFromSelector(aSelector));
   return signature;
@@ -93,7 +93,7 @@
 -(void)setEmitterSetupCompletion:(void (^)(CAEmitterCell *))emitterSetupCompletion
 {
   _emitterSetupCompletion = emitterSetupCompletion;
-  
+
   if (self.emitterCell.contents) {
     // if we already have the image, execute the callbac right away
     emitterSetupCompletion(self.emitterCell);
